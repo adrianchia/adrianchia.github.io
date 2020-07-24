@@ -6,17 +6,21 @@ import Bio from '../components/bio'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
+import { Disqus, CommentCount } from 'gatsby-plugin-disqus'
 import "katex/dist/katex.min.css"
 
-class BlogPostTemplate extends React.Component {
-  render() {
-    const post = this.props.data.mdx
-    const siteTitle = this.props.data.site.siteMetadata.title
-    const { previous, next } = this.props.pageContext
-    console.log(this.props.pageContext)
+const BlogPostTemplate = ({ pageContext, data, location }) => {
+    const post = data.mdx
+    const siteTitle = data.site.siteMetadata.title
+    const { previous, next } = pageContext
+    const disqusConfig = {
+      url: `${data.site.siteMetadata.siteUrl + location.pathname}`,
+      identifier: post.id,
+      title: post.title
+    }
 
     return (
-      <Layout location={this.props.location} title={siteTitle}>
+      <Layout location={location} title={siteTitle}>
         <SEO title={post.frontmatter.title} description={post.excerpt} />
         <h1>{post.frontmatter.title}</h1>
         <p
@@ -31,6 +35,7 @@ class BlogPostTemplate extends React.Component {
           {`  `}
           { post.fields.readingTime.text }
         </p>
+        <CommentCount config={disqusConfig} placeholder={'...'} />
         <MDXRenderer>{post.body}</MDXRenderer>
         <hr
           style={{
@@ -38,7 +43,7 @@ class BlogPostTemplate extends React.Component {
           }}
         />
         <Bio />
-
+        <Disqus config={disqusConfig} />
         <ul
           style={{
             display: `flex`,
@@ -65,7 +70,7 @@ class BlogPostTemplate extends React.Component {
         </ul>
       </Layout>
     )
-  }
+
 }
 
 export default BlogPostTemplate
@@ -76,6 +81,7 @@ export const pageQuery = graphql`
       siteMetadata {
         title
         author
+        siteUrl
       }
     }
     mdx(fields: { slug: { eq: $slug } }) {
