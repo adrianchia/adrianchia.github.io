@@ -1,8 +1,9 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
-import Image from 'gatsby-image'
+//import Image from 'gatsby-image'
 
 import { rhythm } from '../utils/typography'
+import Gravatar from './gravatar'
 
 function Bio() {
   return (
@@ -17,16 +18,12 @@ function Bio() {
               marginBottom: rhythm(2.5),
             }}
           >
-            <Image
-              fixed={data.avatar.childImageSharp.fixed}
-              alt={author}
-              style={{
-                marginRight: rhythm(1 / 2),
-                marginBottom: 0,
-                minWidth: 50,
-                borderRadius: `100%`,
-              }}
-            />
+            <span style={{
+              width: 50,
+              height: 50
+            }}>
+            <Gravatar/>
+            </span>
             <p>
               Written by <strong>{author}</strong> who lives and works in
               Minneapolis building silly things.

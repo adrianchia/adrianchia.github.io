@@ -1,6 +1,7 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import { rhythm, scale } from "../utils/typography"
 
 const Header = ({ siteTitle }) => (
   <header
@@ -16,11 +17,16 @@ const Header = ({ siteTitle }) => (
         padding: `1.45rem 1.0875rem`,
       }}
     >
-      <h1 style={{ margin: 0 }}>
+      <h1 style={{
+        ...scale(1.5),
+        marginBottom: rhythm(1.5),
+        marginTop: 0
+      }}>
         <Link
           to="/"
           style={{
             color: `white`,
+            boxShadow: `none`,
             textDecoration: `none`,
           }}
         >

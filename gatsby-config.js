@@ -26,14 +26,23 @@ module.exports = {
       }
     },
     {
+      resolve: `gatsby-source-gravatar`,
+      options: {
+        // required.
+        // a list of emails to create URLs for
+        emails: [
+          {email: `achia@adrianchia.com`, query: `size=512`}
+        ]
+      }
+    },
+    {
+      resolve: `gatsby-plugin-remote-images`,
+      options: { nodeType: `gravatar`, imagePath: 'url' }
+    },
+    {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: ['.mdx', '.md'],
-        // a workaround to solve mdx-remark plugin compat issue
-        // https://github.com/gatsbyjs/gatsby/issues/15486
-        plugins: [
-
-        ],
         gatsbyRemarkPlugins: [
           {
             resolve: `gatsby-remark-images`,
@@ -41,9 +50,17 @@ module.exports = {
               maxWidth: 590
             }
           },
+          {
+            resolve: `gatsby-remark-katex`,
+            options: {
+              // Add any KaTeX options from https://github.com/KaTeX/KaTeX/blob/master/docs/options.md here
+              strict: `ignore`
+            }
+          }
         ]
       }
     },
+    `gatsby-remark-reading-time`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
