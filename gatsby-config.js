@@ -13,6 +13,12 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
+      resolve: `gatsby-plugin-react-helmet-canonical-urls`,
+      options: {
+        siteUrl: `https://adrianchia.com`
+      }
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
@@ -51,6 +57,9 @@ module.exports = {
               maxWidth: 590
             }
           },
+          `gatsby-remark-responsive-iframe`,
+          `gatsby-remark-copy-linked-files`,
+          `gatsby-remark-smartypants`,
           {
             resolve: `gatsby-remark-katex`,
             options: {
@@ -237,6 +246,13 @@ module.exports = {
         siteSpeedSampleRate: 10,
         cookieDomain: "adrianchia.com",
       },
-    }
+    },
+    {
+      resolve: `gatsby-plugin-nprogress`,
+      options: {
+        color: `tomato`,
+        showSpinner: true,
+      }
+    },
   ],
 }
