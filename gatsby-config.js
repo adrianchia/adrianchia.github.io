@@ -259,6 +259,9 @@ module.exports = {
       options: {
         shortname: `adrianchiasblog`
       }
-    }
+    },
+    {
+      resolve: `gatsby-plugin-advanced-sitemap`
+    },
   ],
 }
