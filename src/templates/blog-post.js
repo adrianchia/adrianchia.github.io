@@ -6,7 +6,7 @@ import Bio from '../components/bio'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
-import { Disqus, CommentCount } from 'gatsby-plugin-disqus'
+import { Disqus } from 'gatsby-plugin-disqus'
 import "katex/dist/katex.min.css"
 
 const BlogPostTemplate = ({ pageContext, data, location }) => {
@@ -35,7 +35,7 @@ const BlogPostTemplate = ({ pageContext, data, location }) => {
           {`  `}
           { post.fields.readingTime.text }
         </p>
-        <CommentCount config={disqusConfig} placeholder={'...'} />
+
         <MDXRenderer>{post.body}</MDXRenderer>
         <hr
           style={{
