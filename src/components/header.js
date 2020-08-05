@@ -61,6 +61,14 @@ const Header = ({ siteTitle }) => {
       <i class="fab fa-github"></i>
     </NavLink>
 
+    <NavLink to="/rss.xml"
+    sx={{
+      variant: 'styles.navlink',
+      p: 2,
+    }}>
+      <i class="fas fa-rss" />
+    </NavLink>
+
     <Button sx={{
       ml: 2,
     }}
