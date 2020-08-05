@@ -6,7 +6,6 @@
  */
 /** @jsx jsx */
 import { jsx, Styled, Flex, Box } from 'theme-ui'
-import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
@@ -53,6 +52,7 @@ const Layout = ({ children }) => {
         </div>
         <Footer/>
         </Box>
+
       </Flex>
     </Styled.root>
   )

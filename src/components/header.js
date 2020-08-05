@@ -1,8 +1,7 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
-import React from "react"
 /** @jsx jsx */
 import { jsx, useColorMode } from 'theme-ui'
+import { Link, useStaticQuery, graphql } from "gatsby"
+import PropTypes from "prop-types"
 import NavLink from './nav-link'
 import Button from './button'
 
@@ -26,6 +25,8 @@ const Header = ({ siteTitle }) => {
     const next = modes[(i+1) % modes.length]
     setMode(next)
   }
+
+  const data = useStaticQuery(query);
 
   return (
   <header
@@ -53,12 +54,28 @@ const Header = ({ siteTitle }) => {
     >
       About
     </NavLink>
-    <NavLink to="https://github.com"
+    <NavLink to={`https://github.com/${data.site.siteMetadata.social.github}`}
      sx={{
        variant: 'styles.navlink',
        p: 2,
      }}>
       <i class="fab fa-github"></i>
+    </NavLink>
+
+    <NavLink to={`https://twitter.com/${data.site.siteMetadata.social.twitter}`}
+     sx={{
+       variant: 'styles.navlink',
+       p: 2,
+     }}>
+      <i class="fab fa-twitter"></i>
+    </NavLink>
+
+    <NavLink to={`https://linkedin.com/in/${data.site.siteMetadata.social.linkedin}`}
+     sx={{
+       variant: 'styles.navlink',
+       p: 2,
+     }}>
+      <i class="fab fa-linkedin"></i>
     </NavLink>
 
     <NavLink to="/rss.xml"
@@ -72,7 +89,6 @@ const Header = ({ siteTitle }) => {
     <Button sx={{
       ml: 2,
     }}
-    variant='background'
     onClick={cycleMode}>
       {getModeName(mode)}
     </Button>
@@ -88,3 +104,17 @@ Header.defaultProps = {
 }
 
 export default Header
+
+const query = graphql`
+  query {
+    site {
+      siteMetadata {
+        social {
+          github
+          twitter
+          linkedin
+        }
+      }
+    }
+  }
+`

@@ -24,7 +24,7 @@ const BlogPostTemplate = ({ pageContext, data, location }) => {
         <h1>{post.frontmatter.title}</h1>
         <p>
           {post.frontmatter.date}
-          {`  `}
+          {` · `}
           { post.fields.readingTime.text }
         </p>
 

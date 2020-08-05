@@ -1,10 +1,32 @@
-import React from "react"
+/** @jsx jsx */
+import { jsx } from "theme-ui"
+import { Link } from "gatsby"
 
 const Footer = () => (
-  <footer>
-    © {new Date().getFullYear()}, Built with
+  <footer sx={{
+    width: '100%',
+    fontSize: 1,
+    variant: 'styles.footer',
+  }}>
+    <div sx={{
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      maxWidth: 768,
+      mx: 'auto',
+      px: 2,
+      py: 4,
+    }}>
+      <div sx={{
+        p: 2
+      }}>
+        © {new Date().getFullYear()}, Built with
     {` `}
-    <a href="https://www.gatsbyjs.org">Gatsby</a>
+        <Link to="https://www.gatsbyjs.org" sx={{
+          color: 'primary',
+        }}>Gatsby</Link>
+      </div>
+    </div>
   </footer>
 )
 

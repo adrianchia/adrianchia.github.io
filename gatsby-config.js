@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Adrian Chia's Blog`,
+    title: `Adrian Chia`,
     description: `A place for me to capture ideas and share knowledge`,
     author: `@adrianchia`,
     siteUrl: `https://adrianchia.com`,
@@ -142,8 +142,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Adrian Chia's Blog`,
-        short_name: `Adrian Chia's Blog`,
+        name: `Adrian Chia`,
+        short_name: `Adrian Chia`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,

@@ -1,8 +1,8 @@
-import React from "react"
+/** @jsx jsx */
+import { jsx, Styled } from "theme-ui"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
 const IndexPage = ({
@@ -14,36 +14,45 @@ const IndexPage = ({
   return (
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
+    <Styled.h1>Posts</Styled.h1>
+    <ul sx={{
+      listStyle: 'none',
+      m: 0,
+      px: 3,
+      py: 4,
+    }}>
     {posts.map(({node}) => {
       const title = node.frontmatter.title || node.fields.slug
       return (
-        <article key={node.fields.slug}>
-          <header
-            style={{
-
-            }}
-          >
-            <h3>
-              <Link style={{
-                boxShadow: `none`
-              }}
-            to={node.fields.slug}>{title}</Link>
-            </h3>
-          </header>
-          <section>
-            <p dangerouslySetInnerHTML={{
-              __html: node.excerpt,
-            }}/>
-          </section>
-        </article>
+        <li key={node.fields.slug}
+          sx={{
+            mb: 4,
+          }}>
+          <Styled.h2 sx={{
+            m: 0,
+          }}>
+            <Link to={node.fields.slug}
+              sx={{
+                color: 'inherit',
+                textDecoration: 'none',
+                ':hover,:focus': {
+                  color: 'primary',
+                  textDecoration: 'underline',
+                }
+              }}>{title}</Link>
+          </Styled.h2>
+            <small sx={{ fontWeight: 'bold' }}>{node.frontmatter.date} {` · `} {node.fields.readingTime.text}</small>
+          <Styled.p>
+            {node.excerpt}
+          </Styled.p>
+          <Link to={node.fields.slug}
+              sx={{
+                color: 'primary'
+              }}>Read</Link>
+        </li>
       )
     })}
+    </ul>
   </Layout>
 )
 }
