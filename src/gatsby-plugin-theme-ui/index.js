@@ -1,9 +1,4 @@
-import { toTheme } from '@theme-ui/typography'
-import fairyGatesTheme from 'typography-theme-fairy-gates'
-
-const theme = toTheme(fairyGatesTheme)
-
-const config = {
+export default {
   useCustomProperties: true,
   initialColorMode: "light",
   colors: {
@@ -16,11 +11,22 @@ const config = {
         background: '#000',
         primary: '#0cf'
       },
+    },
+  },
+  layout: {
+    container: {
+      p: 3,
     }
   },
-};
-
-export default {
-  ...theme,
-  ...config
+  styles: {
+    navlink: {
+      display: 'inline-block',
+      fontWeight: 'bold',
+      color: 'inherit',
+      textDecoration: 'none',
+      ':hover,:focus': {
+        color: 'primary',
+      },
+    },
+  },
 }

@@ -4,15 +4,19 @@
  *
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
-
+/** @jsx jsx */
+import { jsx, Styled, Flex, Box } from 'theme-ui'
 import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
-import "./layout.css"
+//import "./layout.css"
+import "@fortawesome/fontawesome-free/js/all.min.js"
+import Footer from "./footer"
 
 const Layout = ({ children }) => {
+
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -24,23 +28,33 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
-        <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
-    </>
+    <Styled.root>
+      <Flex sx={{
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}>
+        <Header siteTitle={data.site.siteMetadata.title} />
+        <Box sx={{
+          flex: '1 1 auto',
+        }}>
+        <div sx={{
+          display: ['block', 'flex']
+        }}>
+          <main id="content"
+            sx={{
+              width: '100%',
+              minWidth: 0,
+              maxWidth: 768,
+              mx: 'auto',
+              px: 3
+            }}
+          >{children}</main>
+
+        </div>
+        <Footer/>
+        </Box>
+      </Flex>
+    </Styled.root>
   )
 }
 

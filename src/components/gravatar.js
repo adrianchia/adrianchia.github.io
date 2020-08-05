@@ -1,14 +1,12 @@
 import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import GatsbyImage from "gatsby-image"
-import { rhythm } from '../utils/typography'
 
 const Gravatar = () => {
   const { gravatar } = useStaticQuery(query)
 
   return <GatsbyImage
     style={{
-      marginRight: rhythm(1 / 2),
       marginBottom: 0,
       minWidth: 50,
       borderRadius: `50%`,
