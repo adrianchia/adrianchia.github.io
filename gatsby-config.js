@@ -3,7 +3,7 @@ module.exports = {
     title: `Adrian Chia`,
     description: `A place for me to capture ideas and share knowledge`,
     author: `@adrianchia`,
-    siteUrl: `https://adrianchia.com`,
+    siteUrl: `https://www.adrianchia.com`,
     social: {
       twitter: `adrianchia`,
       github: `adrianchia`,
@@ -16,7 +16,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-react-helmet-canonical-urls`,
       options: {
-        siteUrl: `https://adrianchia.com`
+        siteUrl: `https://www.adrianchia.com`
       }
     },
     {
