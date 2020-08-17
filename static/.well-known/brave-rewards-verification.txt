@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: adrianchia.com
+Token: c5b21474f3de6a980a0bb2e3428be075e4f4d4d9cea32fecffb9bd5661a80473
