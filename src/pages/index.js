@@ -3,7 +3,7 @@ import { jsx, Styled } from "theme-ui"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Seo from "../components/seo"
 
 const IndexPage = ({
   data: {
@@ -13,7 +13,7 @@ const IndexPage = ({
   const posts = edges.filter(edge => !!edge.node.frontmatter.date);
   return (
   <Layout>
-    <SEO title="Home" />
+    <Seo title="Home" />
     <Styled.h1>Posts</Styled.h1>
     <ul sx={{
       listStyle: 'none',

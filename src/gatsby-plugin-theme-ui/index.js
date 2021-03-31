@@ -1,6 +1,6 @@
 import okaidia from '@theme-ui/prism/presets/prism-okaidia.json'
 
-export default {
+const theme = {
   useCustomProperties: true,
   initialColorMode: "light",
   space: [
@@ -196,5 +196,43 @@ export default {
         color: 'primary',
       },
     },
+    CodeBlock: {
+      ...okaidia,
+      //mb: 3,
+      overflow: `auto`,
+      pre: {
+        backgroundColor: `transparent`,
+        float: `left`,
+        minWidth: `100%`,
+        margin: 0,
+      },
+      highlightLine: {
+        backgroundColor: `#01121f`,
+        borderLeftColor: `#9ccc65`,
+        //backgroundColor: `#f0f0f0`,
+        //borderLeftColor: `#49d0c5`,
+        borderLeftStyle: `solid`,
+        borderLeftWidth: `0.25em`,
+        display: `block`,
+        marginRight: `-1em`,
+        marginLeft: `-1em`,
+        paddingRight: `1em`,
+        paddingLeft: `0.75em`,
+      },
+      title: {
+        fontFamily: `mono`,
+        backgroundColor: okaidia.backgroundColor,
+        //borderLeftColor: `#262a39`,
+        borderBottomWidth: `2px`,
+        borderBottomStyle: `solid`,
+        borderBottomColor: `#f0f0f0`,
+        color: okaidia.color
+      }
+    },
+    inlineCode: {
+      fontSize: "0.85em",
+    },
   },
-}
+};
+
+export default theme;
