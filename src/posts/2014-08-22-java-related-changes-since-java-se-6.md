@@ -15,13 +15,17 @@ What's New in Java SE 7 Syntax
 
     We may display **0b** or **0B** in front of a number to indicate a binary number. E.g. 
     
-        int aNum = 0b00100001 // 33
+    ```java
+    int aNum = 0b00100001 // 33
+    ```
 
 * Underscore in Numeric Literals
 
     We can separate a group of numbers with underscore in between digits to make it more readable, and the actual value is the same as without underscore
     
-        long ccNumber = 1111_1111_1111_1111L // which is the same as 1111111111111111L
+    ```java
+    long ccNumber = 1111_1111_1111_1111L // which is the same as 1111111111111111L
+    ```
 
     **Note**
     1. We cannot add underscore before and after decimal point
@@ -33,42 +37,50 @@ What's New in Java SE 7 Syntax
 
     In Java SE 6 if we want to do a conditional statement on a String we need to do it in a if...else Statement
     
-         if(a.equals("apple")) {
-             // do something
-         } else if (a.equals("orange")) {
-            // do another thing
-         } else if (a.equals("pear")) {
-            // do some other thing
-         } else {
-            // do something when above conditions do not match
-         }
-         
-     In Java SE 7 we can wrap it into a Switch Statement
+    ```java
+    if(a.equals("apple")) {
+        // do something
+    } else if (a.equals("orange")) {
+      // do another thing
+    } else if (a.equals("pear")) {
+      // do some other thing
+    } else {
+      // do something when above conditions do not match
+    }
+    ```
+
+    In Java SE 7 we can wrap it into a Switch Statement
      
-         switch(a) {
-             case "apple":
-                 //do something
-                 break;
-             case "orange":
-                 // do something
-                 break;
-             case "pear":
-                 // do somethin
-                 break;
-             default:
-             	// do something
-                break;
-         }
+    ```java
+    switch(a) {
+        case "apple":
+            //do something
+            break;
+        case "orange":
+            // do something
+            break;
+        case "pear":
+            // do somethin
+            break;
+        default:
+        // do something
+          break;
+    }
+    ```
 
 * Type Inference for Generic instance Creation (a.k.a Diamond)
 
     In Java SE 6 we can create a generic collection like a list of Strings in the following syntax 
     
-        List<String> strCollections = new ArrayList<String>();
-    
+    ```java
+    List<String> strCollections = new ArrayList<String>();
+    ```
+
     In Java SE 7 we can create the same list with a shorter syntax
     
-        List<String> strCollections = new ArrayList<>();
+    ```java
+    List<String> strCollections = new ArrayList<>();
+    ```
 
 * Improved Compiler Warnings and Errors When Using Non-Reifiable Formal Parameters with Varargs Methods
 
@@ -77,67 +89,69 @@ What's New in Java SE 7 Syntax
 * Try-with-Resources
 
     Java SE 6
-    
-        BufferedReader br;
-        try {
-            br = new BufferedReader(...);
-            br.readLine();
-        } catch (IOException e) {
-            // do something
-        } finally {
-            if (br != null) {
-                br.close();
-            }
+
+    ```java    
+    BufferedReader br;
+    try {
+        br = new BufferedReader(...);
+        br.readLine();
+    } catch (IOException e) {
+        // do something
+    } finally {
+        if (br != null) {
+            br.close();
         }
-    
+    }
+    ```
+
     Java SE 7
-    
-        try(BufferedReader br = new BufferedReader(...)) {
-            br.readLine();
-        } catch (IOException e) {
-            // do something
-        } 
+
+    ```java    
+    try(BufferedReader br = new BufferedReader(...)) {
+      br.readLine();
+    } catch (IOException e) {
+      // do something
+    } 
+    ```
+
 
 * Catch Multiple Exception Types and Rethrowing with Improved Type Checking
 
     Java SE 6
 
-        Class string;
-		try{
-			string = Class.forName("java.lang.String");
-			string.getMethod("length").invoke("some error");
-		}catch(ClassNotFoundException cnfe){
-			System.out.println(cnfe.getMessage());
-			
-		}catch(IllegalAccessException iae1){
-			System.out.println(iae1.getMessage());
-			
-		}catch(IllegalArgumentException iae2){
-			System.out.println(iae2.getMessage());
-			
-		}catch(InvocationTargetException ite){
-			System.out.println(ite.getMessage());
-			
-		}catch(SecurityException se){
-			System.out.println(se.getMessage());
-			
-		}catch(NoSuchMethodException nsme){
-			System.out.println(nsme.getMessage());
-			
-		}
-        
-     Java SE 7
-     
-        try {
-			Class s = Class.forName("java.lang.String");
-			s.getMethod("length").invoke("some error");
-		} catch (ClassNotFoundException | IllegalAccessException 
-				| IllegalArgumentException | InvocationTargetException 
-				| SecurityException | NoSuchMethodException e) {
-			//Do something here
-			System.out.println(e.getMessage());
-		}
-     
+    ```java
+    Class string;
+    try{
+      string = Class.forName("java.lang.String");
+      string.getMethod("length").invoke("some error");
+    } catch(ClassNotFoundException cnfe) {
+      System.out.println(cnfe.getMessage());
+    } catch(IllegalAccessException iae1) {
+      System.out.println(iae1.getMessage());
+    } catch(IllegalArgumentException iae2) {
+      System.out.println(iae2.getMessage());
+    } catch(InvocationTargetException ite) {
+      System.out.println(ite.getMessage());
+    } catch(SecurityException se) {
+      System.out.println(se.getMessage());
+    } catch(NoSuchMethodException nsme) {
+    System.out.println(nsme.getMessage());
+    }
+    ```
+
+    Java SE 7
+
+    ```java     
+    try {
+      Class s = Class.forName("java.lang.String");
+      s.getMethod("length").invoke("some error");
+    } catch (ClassNotFoundException | IllegalAccessException 
+            | IllegalArgumentException | InvocationTargetException 
+            | SecurityException | NoSuchMethodException e) {
+      //Do something here
+      System.out.println(e.getMessage());
+    }
+    ```
 
 More details about Java SE 7 changes are available on the [Java SE 7 Features and Enhancements](http://www.oracle.com/technetwork/java/javase/jdk7-relnotes-418459.html), especially on the [Java Programming Language Enhancements](http://docs.oracle.com/javase/7/docs/technotes/guides/language/enhancements.html#javase7)
 
@@ -150,15 +164,17 @@ What's New in Java SE 8 Syntax
 ----------------------
 * Lambda Expressions
 
-        processElements(
-            roster,
-            p -> p.getGender() == Person.Sex.MALE
-                && p.getAge() >= 18
-                && p.getAge() <= 25,
-                p -> p.getEmailAddress(),
-                email -> System.out.println(email)
-        );
-
+  ```java
+  processElements(
+      roster,
+      p -> p.getGender() == Person.Sex.MALE
+          && p.getAge() >= 18
+          && p.getAge() <= 25,
+          p -> p.getEmailAddress(),
+          email -> System.out.println(email)
+  );
+  ```
+  
 * Improved Type Inference
 * Type Annotations and Pluggable Type Systems
 * Repeating Annotations

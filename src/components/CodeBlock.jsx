@@ -14,10 +14,10 @@ const getShouldHighlightLine = (hl) => {
   return () => false;
 };
 
-const CodeBlock = ({ children, className: outerClassName, hl, title, ...props}) => {
+const CodeBlock = ({ children, className, hl, title, ...props}) => {
   // MDX will pass the language as className
   // className also includes className(s) theme-ui injected
-  const [language] = outerClassName.replace(/language-/, ``).split(` `);
+  const language = className?.replace(/language-/, '') || '';
   if (typeof children !== `string`) {
     // MDX will pass in the code string as children
     return null;
