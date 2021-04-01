@@ -28,7 +28,7 @@ const CodeBlock = ({ children, className, hl, title, ...props}) => {
 
   return (
     <React.Fragment>
-      {title && <div sx={{ variant: `stles.CodeBlock.title` }}>{ title }</div>}
+      {title && <Themed.div sx={{ variant: `styles.CodeBlock.title` }}>{ title }</Themed.div>}
       <div sx={{ variant: `styles.CodeBlock` }}>
         <Highlight
           {...defaultProps}

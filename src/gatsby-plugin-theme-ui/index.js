@@ -168,9 +168,9 @@ const theme = {
         color: 'inherit'
       }
     },
-    code: {
-      ...okaidia,
-    },
+    //code: {
+    //  ...okaidia,
+    //},
     table: {
       width: '100%',
       borderCollapse: 'separate',
@@ -198,7 +198,7 @@ const theme = {
     },
     CodeBlock: {
       ...okaidia,
-      //mb: 3,
+      mb: 3,
       overflow: `auto`,
       pre: {
         backgroundColor: `transparent`,

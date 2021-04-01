@@ -69,13 +69,6 @@ module.exports = {
             }
           },
         ],
-        remarkPlugins: [
-          require('remark-math'),
-          require('remark-html-katex')
-        ],
-        rehypePlugins: [
-          require('rehype-katex')
-        ],
       },
     },
     `gatsby-remark-reading-time`,
