@@ -1,7 +1,6 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 //import Image from 'gatsby-image'
-import Gravatar from './gravatar'
 
 function Bio() {
   return (
@@ -19,7 +18,6 @@ function Bio() {
               width: 50,
               height: 50
             }}>
-            <Gravatar/>
             </span>
             <p>
               Written by <strong>{author}</strong> who lives and works in

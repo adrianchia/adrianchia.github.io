@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Styled } from "theme-ui"
+import { jsx, Themed } from "theme-ui"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
@@ -14,7 +14,7 @@ const IndexPage = ({
   return (
   <Layout>
     <Seo title="Home" />
-    <Styled.h1>Posts</Styled.h1>
+    <Themed.h1>Posts</Themed.h1>
     <ul sx={{
       listStyle: 'none',
       m: 0,
@@ -28,7 +28,7 @@ const IndexPage = ({
           sx={{
             mb: 4,
           }}>
-          <Styled.h2 sx={{
+          <Themed.h2 sx={{
             m: 0,
           }}>
             <Link to={node.fields.slug}
@@ -40,11 +40,11 @@ const IndexPage = ({
                   textDecoration: 'underline',
                 }
               }}>{title}</Link>
-          </Styled.h2>
-            <small sx={{ fontWeight: 'bold' }}>{node.frontmatter.date} {` · `} {node.fields.readingTime.text}</small>
-          <Styled.p>
+          </Themed.h2>
+            <small sx={{ fontWeight: 'bold' }}>{node.frontmatter.date} {` · `}</small>
+          <Themed.p>
             {node.excerpt}
-          </Styled.p>
+          </Themed.p>
           <Link to={node.fields.slug}
               sx={{
                 color: 'primary'
@@ -67,9 +67,6 @@ export const pageQuery = graphql`
           excerpt(pruneLength: 160)
           fields {
             slug
-            readingTime {
-              text
-            }
           }
           frontmatter {
             date(formatString: "MMMM DD, YYYY")

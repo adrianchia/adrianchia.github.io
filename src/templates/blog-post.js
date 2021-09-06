@@ -4,7 +4,7 @@ import { MDXRenderer } from 'gatsby-plugin-mdx'
 
 import Bio from '../components/bio'
 import Layout from '../components/layout'
-import SEO from '../components/seo'
+import Seo from '../components/seo'
 import { Disqus } from 'gatsby-plugin-disqus'
 import "katex/dist/katex.min.css"
 
@@ -20,12 +20,11 @@ const BlogPostTemplate = ({ pageContext, data, location }) => {
 
     return (
       <Layout location={location} title={siteTitle}>
-        <SEO title={post.frontmatter.title} description={post.excerpt} />
+        <Seo title={post.frontmatter.title} description={post.excerpt} />
         <h1>{post.frontmatter.title}</h1>
         <p>
           {post.frontmatter.date}
           {` · `}
-          { post.fields.readingTime.text }
         </p>
 
         <MDXRenderer>{post.body}</MDXRenderer>
@@ -79,11 +78,6 @@ export const pageQuery = graphql`
       frontmatter {
         title
         date(formatString: "MMMM DD, YYYY")
-      }
-      fields {
-        readingTime {
-          text
-        }
       }
       body
     }

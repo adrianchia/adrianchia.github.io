@@ -1,13 +1,11 @@
 /**
  * Layout component that queries for data
- * with Gatsby's useStaticQuery component
  *
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 /** @jsx jsx */
-import { jsx, Styled, Flex, Box } from 'theme-ui'
+import { jsx, Themed, Flex, Box } from 'theme-ui'
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 //import "./layout.css"
@@ -22,25 +20,14 @@ const components = {
 }
 
 const Layout = ({ children }) => {
-
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
-
   return (
     <MDXProvider components={ components }>
-      <Styled.root>
+      <Themed.root>
         <Flex sx={{
             flexDirection: 'column',
             minHeight: '100vh',
           }}>
-          <Header siteTitle={data.site.siteMetadata.title} />
+          <Header />
           <Box sx={{
             flex: '1 1 auto',
           }}>
@@ -62,7 +49,7 @@ const Layout = ({ children }) => {
           </Box>
 
         </Flex>
-      </Styled.root>
+      </Themed.root>
     </MDXProvider>
   )
 }
