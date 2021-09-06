@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.adrianchia.com/sitemap/sitemap-index.xml
+Host: https://www.adrianchia.com

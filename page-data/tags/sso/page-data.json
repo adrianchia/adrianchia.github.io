@@ -1,1 +1,5 @@
-{"componentChunkName":"component---src-templates-tags-js","path":"/tags/sso/","result":{"data":{"allMdx":{"totalCount":1,"edges":[{"node":{"fields":{"slug":"blogs/2014-09-19-openshift-cas-quickstart-released/"},"frontmatter":{"title":"openshift-cas-quickstart released"}}}]}},"pageContext":{"tag":"sso"}},"staticQueryHashes":[]}
+{
+    "componentChunkName": "component---src-templates-tags-js",
+    "path": "/tags/sso/",
+    "result": {"data":{"allMdx":{"totalCount":1,"edges":[{"node":{"fields":{"slug":"blogs/2014-09-19-openshift-cas-quickstart-released/"},"frontmatter":{"title":"openshift-cas-quickstart released"}}}]}},"pageContext":{"tag":"sso"}},
+    "staticQueryHashes": ["2744905544"]}

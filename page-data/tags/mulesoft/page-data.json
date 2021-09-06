@@ -1,1 +1,5 @@
-{"componentChunkName":"component---src-templates-tags-js","path":"/tags/mulesoft/","result":{"data":{"allMdx":{"totalCount":1,"edges":[{"node":{"fields":{"slug":"blogs/2020-08-16-a-gentle-introduction-to-mulesoft-anypoint-platform/"},"frontmatter":{"title":"A Gentle Introduction to MuleSoft Anypoint Platform"}}}]}},"pageContext":{"tag":"mulesoft"}},"staticQueryHashes":[]}
+{
+    "componentChunkName": "component---src-templates-tags-js",
+    "path": "/tags/mulesoft/",
+    "result": {"data":{"allMdx":{"totalCount":1,"edges":[{"node":{"fields":{"slug":"blogs/2020-08-16-a-gentle-introduction-to-mulesoft-anypoint-platform/"},"frontmatter":{"title":"A Gentle Introduction to MuleSoft Anypoint Platform"}}}]}},"pageContext":{"tag":"mulesoft"}},
+    "staticQueryHashes": ["2744905544"]}
