@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
 
-export default (props) => (
+const Button = (props) => (
   <button
   {...props}
   sx={{
@@ -18,3 +18,5 @@ export default (props) => (
     borderRadius: 2,
   }}/>
 )
+
+export default Button

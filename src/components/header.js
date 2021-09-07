@@ -69,28 +69,28 @@ const Header = () => {
             >
               About
             </NavLink>
-            <NavLink to={`https://github.com/${data.site.siteMetadata.social.github}`}
+            <NavLink href={`https://github.com/${data.site.siteMetadata.social.github}`}
             sx={{
               variant: 'styles.navlink',
               p: 2,
             }}>
-              <i class="fab fa-github"></i>
+              <i className="fab fa-github"></i>
             </NavLink>
 
-            <NavLink to={`https://twitter.com/${data.site.siteMetadata.social.twitter}`}
+            <NavLink href={`https://twitter.com/${data.site.siteMetadata.social.twitter}`}
             sx={{
               variant: 'styles.navlink',
               p: 2,
             }}>
-              <i class="fab fa-twitter"></i>
+              <i className="fab fa-twitter"></i>
             </NavLink>
 
-            <NavLink to={`https://linkedin.com/in/${data.site.siteMetadata.social.linkedin}`}
+            <NavLink href={`https://linkedin.com/in/${data.site.siteMetadata.social.linkedin}`}
             sx={{
               variant: 'styles.navlink',
               p: 2,
             }}>
-              <i class="fab fa-linkedin"></i>
+              <i className="fab fa-linkedin"></i>
             </NavLink>
 
             <NavLink to="/rss.xml"
@@ -98,7 +98,7 @@ const Header = () => {
               variant: 'styles.navlink',
               p: 2,
             }}>
-              <i class="fas fa-rss" />
+              <i className="fas fa-rss" />
             </NavLink>
 
             <Button sx={{

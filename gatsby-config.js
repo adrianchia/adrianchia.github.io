@@ -60,6 +60,20 @@ module.exports = {
       __key: "posts",
     },
     {
+      resolve: `gatsby-source-gravatar`,
+      options: {
+        // required.
+        // a list of emails to create URLs for
+        emails: [
+          {email: `achia@adrianchia.com`, query: `size=512`}
+        ]
+      }
+    },
+    {
+      resolve: `gatsby-plugin-remote-images`,
+      options: { nodeType: `gravatar`, imagePath: 'url' }
+    },
+    {
       resolve: "gatsby-plugin-page-creator",
       options: {
         path: `${__dirname}/src/posts`,

@@ -8,9 +8,8 @@ const styles = {
   variant: 'links.nav'
 }
 
-export default ({href, ...props}) => {
+const NavLink = ({href, ...props}) => {
   const isExternal = isAbsoluteURL(href || '')
-
   if (isExternal) {
     return <a {...props} href={href} sx={styles} />
   }
@@ -18,3 +17,5 @@ export default ({href, ...props}) => {
   const to = props.to || href
   return <Link {...props} to={to} sx={styles} activeClassName="active" />
 }
+
+export default NavLink

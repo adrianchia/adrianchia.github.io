@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui"
-import { Link } from "gatsby"
 
 const Footer = () => (
   <footer sx={{
@@ -22,9 +21,9 @@ const Footer = () => (
       }}>
         © {new Date().getFullYear()}, Built with
     {` `}
-        <Link to="https://www.gatsbyjs.org" sx={{
+        <a href="https://www.gatsbyjs.org" sx={{
           color: 'primary',
-        }}>Gatsby</Link>
+        }}>Gatsby</a>
       </div>
     </div>
   </footer>
