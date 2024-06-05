@@ -31,7 +31,7 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - run: npm install -g gatsby-cli
+    - run: npm install -g gatsby-cli@3.3.0
     - run: yarn install
     - run: npm run format
     # - run: npm test

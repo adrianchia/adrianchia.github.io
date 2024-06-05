@@ -19,3 +19,5 @@ const PrivacyPolicyPage = () => (
     </Themed.span>
   </Layout>
 )
+
+export default PrivacyPolicyPage
