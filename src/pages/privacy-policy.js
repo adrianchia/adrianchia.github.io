@@ -9,7 +9,7 @@ const PrivacyPolicyPage = () => (
   <Layout>
     <Seo title="Privacy Policy" />
     <Themed.span sx={{
-      display: block,
+      display: 'block',
       margin: '0 auto 3.125rem',
       width: '11.125rem',
       height: '2.375rem',
