@@ -30,7 +30,7 @@ const TeaOMeterPrivacyPolicyPage = () => (
       </div>
 
       <div>
-        <span sx={{ color: rgb(127, 127, 127) }}>
+        <span sx={{ color: 'rgb(127, 127, 127)' }}>
           <strong>
             <span sx={{ fontSize: '15px' }}>
               <span data-custom-class="subtitle">Last updated <bdt class="question">April 06, 2025</bdt></span>
@@ -141,7 +141,7 @@ const TeaOMeterPrivacyPolicyPage = () => (
 
       <div sx={{lineHeight: '1.5' }}>
         <span sx={{ fontSize: '15px' }}>
-          <span sx={{ color: rgb(127, 127, 127) }}>
+          <span sx={{ color: 'rgb(127, 127, 127)' }}>
             <span data-custom-class="body_text">
               <span sx={{ color: 'rgb(89, 89, 89)' }}>
                 <span data-custom-class="body_text">
@@ -177,7 +177,7 @@ const TeaOMeterPrivacyPolicyPage = () => (
 
       <div sx={{lineHeight: '1.5' }}>
         <span sx={{ fontSize: '15px' }}>
-          <span sx={{ color: rgb(127, 127, 127) }}>
+          <span sx={{ color: 'rgb(127, 127, 127)' }}>
             <span data-custom-class="body_text">
               <strong>Questions or concerns? </strong>Reading this Privacy Notice will help you understand your privacy
               rights and choices. We are responsible for making decisions about how your personal information is processed.
