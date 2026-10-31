@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpg';
+import { SITE_TITLE } from '../config.ts';
+---
+
+<aside class="author">
+  <Image src={avatar} alt="" width={48} height={48} class="avatar" />
+  <span>{SITE_TITLE} · Software engineer in Texas</span>
+</aside>
+
+<style>
+  .author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .author :global(.avatar) {
+    border-radius: 50%;
+    flex: none;
+  }
+</style>

@@ -60,3 +60,38 @@ test('requires an absolute og:image on the homepage', async () => {
   });
   expect(await verifyDist(dir)).toContainEqual(expect.stringMatching(/index\.html.*og:image/));
 });
+
+const GOOD_POST =
+  '<html><head><meta property="og:type" content="article"><meta property="article:published_time" content="2020-08-28T00:00:00.000Z"></head><body></body></html>';
+
+test('accepts a well-formed post page', async () => {
+  expect(await verifyDist(await makeDist({ ...GOOD, 'blogs/x/index.html': GOOD_POST }))).toEqual([]);
+});
+
+test('flags post page without article og:type', async () => {
+  const html = GOOD_POST.replace('content="article"', 'content="website"');
+  const problems = await verifyDist(await makeDist({ ...GOOD, 'blogs/x/index.html': html }));
+  expect(problems).toContainEqual(expect.stringMatching(/blogs\/x\/index\.html.*og:type/));
+});
+
+test('flags post page without article:published_time', async () => {
+  const html = GOOD_POST.replace(/<meta property="article:published_time"[^>]*>/, '');
+  const problems = await verifyDist(await makeDist({ ...GOOD, 'blogs/x/index.html': html }));
+  expect(problems).toContainEqual(expect.stringMatching(/blogs\/x\/index\.html.*article:published_time/));
+});
+
+test('flags post image missing from dist', async () => {
+  const html = GOOD_POST.replace('<body>', '<body><img src="/images/posts/x/a.png">');
+  const problems = await verifyDist(await makeDist({ ...GOOD, 'blogs/x/index.html': html }));
+  expect(problems).toContainEqual(expect.stringContaining('/images/posts/x/a.png'));
+});
+
+test('accepts post image present in dist and ignores external images', async () => {
+  const html = GOOD_POST.replace('<body>', '<body><img src="/images/posts/x/a.png"><img src="https://example.com/b.png">');
+  const dir = await makeDist({ ...GOOD, 'blogs/x/index.html': html, 'images/posts/x/a.png': 'png' });
+  expect(await verifyDist(dir)).toEqual([]);
+});
+
+test('does not treat the blogs index as a post page', async () => {
+  expect(await verifyDist(await makeDist({ ...GOOD, 'blogs/index.html': '<html></html>' }))).toEqual([]);
+});

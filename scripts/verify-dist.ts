@@ -1,5 +1,5 @@
 import { readFile, readdir } from 'node:fs/promises';
-import { join, relative } from 'node:path';
+import { join, relative, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const REQUIRED_FILES = [
@@ -23,7 +23,13 @@ async function readIfExists(path: string): Promise<string | null> {
 }
 
 async function* walk(dir: string): AsyncGenerator<string> {
-  for (const entry of await readdir(dir, { withFileTypes: true })) {
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return; // directory does not exist
+  }
+  for (const entry of entries) {
     const path = join(dir, entry.name);
     if (entry.isDirectory()) yield* walk(path);
     else yield path;
@@ -59,6 +65,20 @@ export async function verifyDist(distDir: string): Promise<string[]> {
       if (content.includes(pattern)) {
         problems.push(`Notion URL pattern "${pattern}" found in ${relative(distDir, path)}`);
       }
+    }
+  }
+
+  for await (const path of walk(join(distDir, 'blogs'))) {
+    const rel = relative(distDir, path).split(sep).join('/');
+    if (!/^blogs\/[^/]+\/index\.html$/.test(rel)) continue;
+    const html = await readFile(path, 'utf8');
+    if (!/<meta property="og:type" content="article"/.test(html)) problems.push(`${rel} is missing og:type article`);
+    if (!/<meta property="article:published_time" content="[^"]+"/.test(html)) {
+      problems.push(`${rel} is missing article:published_time`);
+    }
+    for (const [, src] of html.matchAll(/<img\b[^>]*?\ssrc="(\/[^"]*)"/g)) {
+      const file = decodeURIComponent(src.split(/[?#]/)[0]);
+      if ((await readIfExists(join(distDir, file))) === null) problems.push(`${rel} references missing image ${src}`);
     }
   }
 

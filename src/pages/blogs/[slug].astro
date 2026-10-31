@@ -1,0 +1,130 @@
+---
+import 'katex/dist/katex.min.css';
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import AuthorCard from '../../components/AuthorCard.astro';
+import PostMeta from '../../components/PostMeta.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAdjacent, getPosts, postUrl, type Post } from '../../lib/posts.ts';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post, ...getAdjacent(posts, post.data.slug) },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: Post;
+  newer: Post | null;
+  older: Post | null;
+}
+
+const { post, newer, older } = Astro.props;
+const { title, slug, date, tags, description, readingMinutes, cover, coverCredit } = post.data;
+const { Content } = await render(post);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={cover ?? `/og/blogs/${slug}.png`}
+  article={{ publishedTime: date, tags }}
+>
+  <article class="post">
+    <PostMeta date={date} readingMinutes={readingMinutes} tags={tags} />
+    <h1>{title}</h1>
+    {
+      coverCredit && (
+        <p class="cover-credit">
+          {coverCredit.url ? <a href={coverCredit.url}>{coverCredit.text}</a> : coverCredit.text}
+        </p>
+      )
+    }
+    <div class="prose">
+      <Content />
+    </div>
+    <AuthorCard />
+  </article>
+
+  {
+    (newer || older) && (
+      <nav class="adjacent" aria-label="More posts">
+        {older ? <a class="older" href={postUrl(older.data.slug)}>← {older.data.title}</a> : <span />}
+        {newer ? <a class="newer" href={postUrl(newer.data.slug)}>{newer.data.title} →</a> : <span />}
+      </nav>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .post {
+    margin-top: 32px;
+  }
+  h1 {
+    margin: 8px 0 16px;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  .cover-credit {
+    margin: -8px 0 16px;
+    font-size: 13px;
+    color: var(--subtle);
+  }
+  .cover-credit a {
+    color: inherit;
+    text-decoration: underline;
+  }
+  .prose {
+    margin-top: 24px;
+  }
+  .prose :global(h2),
+  .prose :global(h3) {
+    margin: 2em 0 0.5em;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol),
+  .prose :global(blockquote) {
+    margin: 0 0 1.1em;
+  }
+  .prose :global(blockquote) {
+    padding-left: 16px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  .prose :global(:not(pre) > code) {
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    background: var(--code-bg);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+  .prose :global(.expressive-code) {
+    margin: 1.25em 0;
+  }
+  .prose :global(img) {
+    display: block;
+    margin: 1.5em auto;
+    border-radius: 6px;
+  }
+  .prose :global(.katex-display) {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .adjacent {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 32px;
+    font-weight: 500;
+  }
+  .newer {
+    text-align: right;
+  }
+</style>
