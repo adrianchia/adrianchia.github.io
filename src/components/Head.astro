@@ -1,5 +1,5 @@
 ---
-import { GA_MEASUREMENT_ID, SITE_DESCRIPTION, SITE_TITLE, SITE_URL, SOCIAL } from '../config.ts';
+import { GA_MEASUREMENT_ID, RSS_TITLE, SITE_DESCRIPTION, SITE_TITLE, SITE_URL, SOCIAL } from '../config.ts';
 
 interface Props {
   title?: string;
@@ -23,7 +23,7 @@ const gtagConfig = `window.dataLayer=window.dataLayer||[];function gtag(){dataLa
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 <link rel="icon" type="image/png" href="/favicon.png" />
-<link rel="alternate" type="application/rss+xml" title="Adrian Chia's blog's RSS Feed" href={new URL('/rss.xml', SITE_URL).href} />
+<link rel="alternate" type="application/rss+xml" title={RSS_TITLE} href={new URL('/rss.xml', SITE_URL).href} />
 
 <script is:inline>
   // Runs before paint: stored choice wins, otherwise follow the system setting.

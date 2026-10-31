@@ -9,6 +9,8 @@ const REQUIRED_FILES = [
   '.well-known/brave-rewards-verification.txt',
   'sw.js',
   'robots.txt',
+  'rss.xml',
+  'sitemap.xml',
   '404.html',
   'index.html',
   'about/index.html',
@@ -17,6 +19,9 @@ const REQUIRED_FILES = [
 ];
 
 const NOTION_URL_PATTERNS = ['prod-files-secure', 'secure.notion-static.com', 'X-Amz-Signature', 'amazonaws.com'];
+
+const TEXT_OUTPUT = /\.(html|xml|js|json|css|txt|webmanifest)$/;
+const SITE_ORIGIN = 'https://www.adrianchia.com';
 
 async function readIfExists(path: string): Promise<string | null> {
   try {
@@ -63,7 +68,7 @@ export async function verifyDist(distDir: string): Promise<string[]> {
   }
 
   for await (const path of walk(distDir)) {
-    if (!/\.(html|xml)$/.test(path)) continue;
+    if (!TEXT_OUTPUT.test(path)) continue;
     const content = await readFile(path, 'utf8');
     for (const pattern of NOTION_URL_PATTERNS) {
       if (content.includes(pattern)) {
@@ -72,9 +77,22 @@ export async function verifyDist(distDir: string): Promise<string[]> {
     }
   }
 
+  for await (const path of walk(distDir)) {
+    if (!path.endsWith('.html')) continue;
+    const rel = relative(distDir, path).split(sep).join('/');
+    const html = await readFile(path, 'utf8');
+    for (const [, image] of html.matchAll(/<meta property="og:image" content="([^"]*)"/g)) {
+      if (!image.startsWith(`${SITE_ORIGIN}/`)) continue;
+      const file = decodeURIComponent(image.slice(SITE_ORIGIN.length).split(/[?#]/)[0]);
+      if ((await readIfExists(join(distDir, file))) === null) problems.push(`${rel} og:image points to missing file ${file}`);
+    }
+  }
+
+  const postSlugs: string[] = [];
   for await (const path of walk(join(distDir, 'blogs'))) {
     const rel = relative(distDir, path).split(sep).join('/');
     if (!/^blogs\/[^/]+\/index\.html$/.test(rel)) continue;
+    postSlugs.push(rel.split('/')[1]);
     const html = await readFile(path, 'utf8');
     if (!/<meta property="og:type" content="article"/.test(html)) problems.push(`${rel} is missing og:type article`);
     if (!/<meta property="article:published_time" content="[^"]+"/.test(html)) {
@@ -83,6 +101,26 @@ export async function verifyDist(distDir: string): Promise<string[]> {
     for (const [, src] of html.matchAll(/<img\b[^>]*?\ssrc="(\/[^"]*)"/g)) {
       const file = decodeURIComponent(src.split(/[?#]/)[0]);
       if ((await readIfExists(join(distDir, file))) === null) problems.push(`${rel} references missing image ${src}`);
+    }
+  }
+
+  const rss = await readIfExists(join(distDir, 'rss.xml'));
+  if (rss !== null) {
+    const items = (rss.match(/<item[\s>]/g) ?? []).length;
+    if (items !== postSlugs.length) problems.push(`rss.xml has ${items} items but dist has ${postSlugs.length} post pages`);
+  }
+
+  const sitemap = await readIfExists(join(distDir, 'sitemap.xml'));
+  if (sitemap !== null) {
+    const locs = [...sitemap.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => m[1]);
+    for (const slug of postSlugs) {
+      if (!locs.includes(`${SITE_ORIGIN}/blogs/${slug}/`)) problems.push(`sitemap.xml is missing /blogs/${slug}/`);
+    }
+    for (const slug of LEGACY_SLUGS) {
+      if (locs.includes(`${SITE_ORIGIN}/${slug}/`)) problems.push(`sitemap.xml contains legacy root url /${slug}/`);
+    }
+    if (locs.some((loc) => loc.endsWith('/404.html') || loc.endsWith('/404/'))) {
+      problems.push('sitemap.xml contains the 404 page');
     }
   }
 
