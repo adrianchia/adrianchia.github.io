@@ -17,7 +17,7 @@ To build from the bundled test fixtures without Notion access, run `pnpm build:f
 
 ## Publishing
 
-1. In Notion, set the post's `Status` to `Published` (and fill in Slug and Published Date).
+1. In Notion, set the post's `Status` to `Published`. Title, Slug and Published Date are required; the build stops with an error naming the page if any is missing.
 2. On GitHub, open Actions, choose "Deploy to GitHub Pages", and click "Run workflow".
 
 The workflow tests, builds, verifies and pushes `dist/` to the `master` branch, which GitHub Pages serves.

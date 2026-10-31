@@ -6,9 +6,10 @@ interface Props {
   description?: string;
   ogImage: string; // site-relative path, e.g. /og/site.png
   article?: { publishedTime: Date; tags: string[] };
+  noindex?: boolean; // omit canonical and ask crawlers not to index (404)
 }
 
-const { title, description = SITE_DESCRIPTION, ogImage, article } = Astro.props;
+const { title, description = SITE_DESCRIPTION, ogImage, article, noindex = false } = Astro.props;
 
 const fullTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
 const shareTitle = title ?? SITE_TITLE;
@@ -21,7 +22,7 @@ const gtagConfig = `window.dataLayer=window.dataLayer||[];function gtag(){dataLa
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+{noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
 <link rel="icon" type="image/png" href="/favicon.png" />
 <link rel="alternate" type="application/rss+xml" title={RSS_TITLE} href={new URL('/rss.xml', SITE_URL).href} />
 

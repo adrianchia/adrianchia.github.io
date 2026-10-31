@@ -53,6 +53,8 @@ test('angle brackets in text are escaped, but not in inline code', async () => {
   const md = await pageToMarkdown(fake([base('paragraph', { rich_text: [rt('http://<host>:<port>/ '), code] })]), 'p');
   expect(md).toBe('http://&lt;host&gt;:&lt;port&gt;/ `<T>`\n');
 });
+test('dollar signs in text are escaped so they are not read as math', async () =>
+  expect(await pageToMarkdown(fake([base('paragraph', { rich_text: [rt('costs $5 or $50')] })]), 'p')).toBe('costs \\$5 or \\$50\n'));
 test('callout becomes an emoji blockquote', async () => {
   const md = await pageToMarkdown(fake([base('callout', { rich_text: [rt('Careful')], icon: { type: 'emoji', emoji: '💡' }, color: 'default' })]), 'p');
   expect(md).toContain('> 💡 Careful');
@@ -91,6 +93,7 @@ test('unknown blocks do not throw or leak notion urls', async () => {
 test('excerpt strips markdown and cuts at a word', () => {
   expect(excerpt('## Hi\n\nThis is **bold** text', 12)).toBe('Hi This is…');
   expect(excerpt('Short [link](http://x) `code`')).toBe('Short link code');
+  expect(excerpt('It costs \\$5 at &lt;host&gt;, see $a^2$')).toBe('It costs $5 at <host>, see a^2');
 });
 test('readingMinutes ignores code and floors at 1', () => {
   expect(readingMinutes('word '.repeat(450))).toBe(3);

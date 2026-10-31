@@ -20,6 +20,8 @@ export async function syncNotion(opts: SyncOptions): Promise<{ count: number }> 
   const { client, databaseId, contentDir, publicDir, download } = opts;
 
   const pages = await queryPublishedPages(client, databaseId);
+  // An empty result is almost always misconfiguration (renamed status, wrong database); never wipe the site for it.
+  if (pages.length === 0) throw new SyncError('No Published posts found in Notion; refusing to replace existing content');
   const metas = pages.map(pageToPostMeta);
   validatePosts(metas);
 

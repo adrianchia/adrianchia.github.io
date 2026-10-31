@@ -10,10 +10,14 @@ concurrency: deploy
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Image downloads have no per-request timeout; cap the whole run instead.
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
         with:
           ref: source
+          # The write token is only needed by the publish step, which takes it directly.
+          persist-credentials: false
       # No version input: pnpm/action-setup reads it from "packageManager" in package.json.
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7

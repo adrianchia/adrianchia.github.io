@@ -45,10 +45,14 @@ const UNSUPPORTED = [
 export async function pageToMarkdown(client: Client, pageId: string): Promise<string> {
   const n2m = new NotionToMarkdown({ notionClient: client, config: { parseChildPages: false } });
 
-  // notion-to-md emits text verbatim, so a literal "<port>" would parse as an HTML tag. Escape outside inline code.
+  // notion-to-md emits text verbatim, so a literal "<port>" would parse as an HTML tag and "$5" as math.
+  // Escape outside inline code; Notion inline equations take a separate path.
   const annotate = n2m.annotatePlainText.bind(n2m);
   n2m.annotatePlainText = (text: string, annotations: any) =>
-    annotate(annotations.code ? text : text.replace(/</g, '&lt;').replace(/>/g, '&gt;'), annotations);
+    annotate(
+      annotations.code ? text : text.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\$/g, '\\$'),
+      annotations,
+    );
   // notion-to-md 3.1.9 has no heading_4 case and would emit it as a paragraph.
   n2m.setCustomTransformer('heading_4', async (block: AnyBlock) =>
     '#### ' + (await n2m.blockToMarkdown({
@@ -100,7 +104,10 @@ export function excerpt(markdown: string, max = 160): string {
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/<[^>]+>/g, '')
     .replace(/^\s{0,3}(#{1,6}\s+|>\s?|[-*+]\s+(\[[ x]\]\s+)?|\d+\.\s+)/gm, '')
-    .replace(/[*_~`$]+/g, '')
+    .replace(/[*_~`]+|(?<!\\)\$+/g, '')
+    .replace(/\\\$/g, '$')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
     .replace(/\s+/g, ' ')
     .trim();
   if (text.length <= max) return text;

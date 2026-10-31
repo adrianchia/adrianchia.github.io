@@ -79,6 +79,13 @@ test('sync removes posts no longer published', async () => {
   expect(await readdir(contentDir)).toEqual(['first-post.md']);
 });
 
+test('stops when no posts are published, keeping existing content', async () => {
+  await mkdir(contentDir, { recursive: true });
+  await writeFile(join(contentDir, 'keep.md'), 'x');
+  await expect(syncNotion(mk([], {}))).rejects.toThrow(/No Published posts/);
+  expect(await readdir(contentDir)).toEqual(['keep.md']);
+});
+
 test('stops on invalid slug before writing anything', async () => {
   await mkdir(contentDir, { recursive: true });
   await writeFile(join(contentDir, 'keep.md'), 'x');

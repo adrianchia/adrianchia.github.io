@@ -27,17 +27,22 @@ function sitemapXml(slugs: string[], extra: string[] = []): string {
   return `<urlset>${urls.map((u) => `<url><loc>https://www.adrianchia.com${u}</loc></url>`).join('')}</urlset>`;
 }
 
-/** A dist with the given post pages, matching rss and sitemap. */
+const GOOD_POST =
+  '<html><head><meta property="og:type" content="article"><meta property="article:published_time" content="2020-08-28T00:00:00.000Z"></head><body></body></html>';
+
+/** A dist with a post page per legacy slug plus the given ones, matching rss and sitemap. */
 function withPosts(slugs: string[], html = GOOD_POST): Record<string, string> {
+  const all = [...LEGACY_SLUGS, ...slugs];
   return {
-    ...GOOD,
+    ...BASE,
+    ...Object.fromEntries(LEGACY_SLUGS.map((s) => [`blogs/${s}/index.html`, GOOD_POST])),
     ...Object.fromEntries(slugs.map((s) => [`blogs/${s}/index.html`, html])),
-    'rss.xml': rssXml(slugs.length),
-    'sitemap.xml': sitemapXml(slugs),
+    'rss.xml': rssXml(all.length),
+    'sitemap.xml': sitemapXml(all),
   };
 }
 
-const GOOD: Record<string, string> = {
+const BASE: Record<string, string> = {
   'about/index.html': '<html></html>',
   'flashylight-privacy-policy/index.html': '<html></html>',
   'tea-o-meter-privacy-policy/index.html': '<html></html>',
@@ -53,6 +58,7 @@ const GOOD: Record<string, string> = {
   'rss.xml': rssXml(0),
   'sitemap.xml': sitemapXml([]),
 };
+const GOOD = withPosts([]);
 
 test('reports missing required files', async () => {
   const problems = (await verifyDist(await makeDist())).join('\n');
@@ -90,9 +96,6 @@ test('requires an absolute og:image on the homepage', async () => {
   });
   expect(await verifyDist(dir)).toContainEqual(expect.stringMatching(/index\.html.*og:image/));
 });
-
-const GOOD_POST =
-  '<html><head><meta property="og:type" content="article"><meta property="article:published_time" content="2020-08-28T00:00:00.000Z"></head><body></body></html>';
 
 test('accepts a well-formed post page', async () => {
   expect(await verifyDist(await makeDist(withPosts(['x'])))).toEqual([]);
@@ -156,7 +159,7 @@ test('flags og:image that does not exist in dist', async () => {
 
 test('flags rss/post count mismatch', async () => {
   const dist = { ...withPosts(['a', 'b']), 'rss.xml': rssXml(1) };
-  expect(await verifyDist(await makeDist(dist))).toContainEqual(expect.stringMatching(/rss\.xml.*1.*2/));
+  expect(await verifyDist(await makeDist(dist))).toContainEqual(expect.stringMatching(/rss\.xml has 1 items but dist has 12/));
 });
 
 test('flags sitemap missing a post page', async () => {
@@ -180,4 +183,10 @@ test('flags missing rss.xml and sitemap.xml', async () => {
   const problems = (await verifyDist(await makeDist(rest))).join('\n');
   expect(problems).toContain('rss.xml');
   expect(problems).toContain('sitemap.xml');
+});
+
+test('flags legacy redirect whose target post page is missing', async () => {
+  const slug = '2014-06-16-welcome-to-my-blog';
+  const { [`blogs/${slug}/index.html`]: _, ...rest } = GOOD;
+  expect(await verifyDist(await makeDist(rest))).toContainEqual(expect.stringContaining(`/blogs/${slug}/ is missing`));
 });

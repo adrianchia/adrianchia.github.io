@@ -45,7 +45,8 @@ async function* walk(dir: string): AsyncGenerator<string> {
   }
 }
 
-export async function verifyDist(distDir: string): Promise<string[]> {
+// requireLegacyTargets: off only for the fixture build, whose sample content holds just one legacy post.
+export async function verifyDist(distDir: string, { requireLegacyTargets = true } = {}): Promise<string[]> {
   const problems: string[] = [];
 
   for (const file of REQUIRED_FILES) {
@@ -135,13 +136,17 @@ export async function verifyDist(distDir: string): Promise<string[]> {
     if (!html.includes(`<link rel="canonical" href="https://www.adrianchia.com/blogs/${slug}/"`)) {
       problems.push(`${rel} is missing canonical https://www.adrianchia.com/blogs/${slug}/`);
     }
+    if (requireLegacyTargets && !postSlugs.includes(slug)) problems.push(`Legacy redirect target /blogs/${slug}/ is missing`);
   }
 
   return problems;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const problems = await verifyDist(process.argv[2] ?? 'dist');
+  const args = process.argv.slice(2);
+  const problems = await verifyDist(args.find((a) => !a.startsWith('--')) ?? 'dist', {
+    requireLegacyTargets: !args.includes('--fixtures'),
+  });
   if (problems.length > 0) {
     console.error(problems.join('\n'));
     process.exit(1);
