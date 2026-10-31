@@ -1,1 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>https://www.adrianchia.com/sitemap-pages.xml</loc><lastmod>2025-04-09T04:39:07.171Z</lastmod></sitemap></sitemapindex>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.adrianchia.com/</loc></url>
+  <url><loc>https://www.adrianchia.com/blogs/</loc></url>
+  <url><loc>https://www.adrianchia.com/about/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/android/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/android-studio/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/aws/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/etl/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/express/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/integration/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/java/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/jdk/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/mulesoft/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/nodejs/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/security/</loc></url>
+  <url><loc>https://www.adrianchia.com/tags/sso/</loc></url>
+  <url><loc>https://www.adrianchia.com/blogs/2020-08-28-my-journey-towards-aws-certifications/</loc><lastmod>2020-08-28</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2020-08-16-a-gentle-introduction-to-mulesoft-anypoint-platform/</loc><lastmod>2020-05-16</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2015-08-10-recap-on-the-how-to-build-a-startup-on-udacity/</loc><lastmod>2015-08-10</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2014-09-19-openshift-cas-quickstart-released/</loc><lastmod>2014-09-19</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2014-08-22-java-related-changes-since-java-se-6/</loc><lastmod>2014-08-22</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2014-07-23-getting-started-on-nodejs/</loc><lastmod>2014-07-23</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2014-07-12-getting-started-with-android-android-development-android-studio-edition-pt-3/</loc><lastmod>2014-07-12</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2014-07-12-getting-started-with-android-development/</loc><lastmod>2014-07-12</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2014-07-03-getting-started-with-android-application-development/</loc><lastmod>2014-07-03</lastmod></url>
+  <url><loc>https://www.adrianchia.com/blogs/2014-06-16-welcome-to-my-blog/</loc><lastmod>2014-06-16</lastmod></url>
+  <url><loc>https://www.adrianchia.com/flashylight-privacy-policy/</loc></url>
+  <url><loc>https://www.adrianchia.com/tea-o-meter-privacy-policy/</loc></url>
+</urlset>

@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-tags-js",
-    "path": "/tags/security/",
-    "result": {"data":{"allMdx":{"totalCount":1,"edges":[{"node":{"fields":{"slug":"blogs/2014-09-19-openshift-cas-quickstart-released/"},"frontmatter":{"title":"openshift-cas-quickstart released"}}}]}},"pageContext":{"tag":"security"}},
-    "staticQueryHashes": ["2744905544"]}
