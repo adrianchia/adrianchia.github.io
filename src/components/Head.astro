@@ -1,0 +1,72 @@
+---
+import { GA_MEASUREMENT_ID, SITE_DESCRIPTION, SITE_TITLE, SITE_URL, SOCIAL } from '../config.ts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage: string; // site-relative path, e.g. /og/site.png
+  article?: { publishedTime: Date; tags: string[] };
+}
+
+const { title, description = SITE_DESCRIPTION, ogImage, article } = Astro.props;
+
+const fullTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+const shareTitle = title ?? SITE_TITLE;
+const canonical = new URL(Astro.url.pathname, SITE_URL).href;
+const image = new URL(ogImage, SITE_URL).href;
+const gtagConfig = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',${JSON.stringify(GA_MEASUREMENT_ID)});`;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="alternate" type="application/rss+xml" title="Adrian Chia's blog's RSS Feed" href={new URL('/rss.xml', SITE_URL).href} />
+
+<script is:inline>
+  // Runs before paint: stored choice wins, otherwise follow the system setting.
+  (function () {
+    var theme = null;
+    try {
+      theme = localStorage.getItem('theme');
+    } catch (e) {}
+    if (theme !== 'light' && theme !== 'dark') {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.dataset.theme = theme;
+  })();
+</script>
+
+<meta property="og:title" content={shareTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:type" content={article ? 'article' : 'website'} />
+{
+  article && (
+    <>
+      <meta property="article:published_time" content={article.publishedTime.toISOString()} />
+      {article.tags.map((tag) => <meta property="article:tag" content={tag} />)}
+    </>
+  )
+}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content={`@${SOCIAL.twitter}`} />
+<meta name="twitter:title" content={shareTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
+{
+  GA_MEASUREMENT_ID && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+      <script is:inline set:html={gtagConfig} />
+    </>
+  )
+}

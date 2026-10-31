@@ -1,0 +1,69 @@
+---
+import { formatDate, postUrl, type Post } from '../lib/posts.ts';
+
+interface Props {
+  post: Post;
+}
+
+const { title, slug, date, description, readingMinutes, tags } = Astro.props.post.data;
+
+// Placeholder until Task 7 adds tagSlug(): links point at the tag index for now.
+const tagHref = (_tag: string) => '/tags/';
+---
+
+<article class="post-item">
+  <div class="meta mono">
+    <time datetime={formatDate(date)}>{formatDate(date)}</time> · {readingMinutes} min read
+  </div>
+  <h3 class="title"><a href={postUrl(slug)}>{title}</a></h3>
+  {description && <p class="description">{description}</p>}
+  {
+    tags.length > 0 && (
+      <ul class="tags mono" aria-label="Tags">
+        {tags.map((tag) => (
+          <li>
+            <a href={tagHref(tag)}>#{tag}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .post-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--divider);
+  }
+  .meta {
+    font-size: 13px;
+    color: var(--subtle);
+  }
+  .title {
+    margin: 4px 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+  .title a {
+    color: var(--text);
+  }
+  .title a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .description {
+    margin: 0;
+    color: var(--muted);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+  }
+</style>

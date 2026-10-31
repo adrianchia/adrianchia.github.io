@@ -1,12 +1,42 @@
 ---
+import PostListItem from '../components/PostListItem.astro';
+import { SITE_DESCRIPTION, TAGLINE } from '../config.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPosts } from '../lib/posts.ts';
+
+const latest = (await getPosts()).slice(0, 10);
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Adrian Chia</title>
-  </head>
-  <body>
-    <h1>Adrian Chia</h1>
-  </body>
-</html>
+
+<BaseLayout ogImage="/og/site.png">
+  <section class="intro">
+    <h1>{TAGLINE}</h1>
+    <p>{SITE_DESCRIPTION}</p>
+  </section>
+
+  <h2 class="label">Latest posts</h2>
+  {latest.map((post) => <PostListItem post={post} />)}
+
+  <p class="all-posts"><a href="/blogs/">All posts →</a></p>
+</BaseLayout>
+
+<style>
+  .intro {
+    margin: 32px 0 40px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  .intro p {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .all-posts {
+    margin: 24px 0 0;
+    font-weight: 500;
+  }
+</style>

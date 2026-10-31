@@ -1,0 +1,27 @@
+---
+import { SITE_TITLE } from '../config.ts';
+
+const year = new Date().getUTCFullYear();
+---
+
+<footer class="container site-footer">
+  <span>© {year} {SITE_TITLE}</span>
+  <a href="/rss.xml">RSS</a>
+</footer>
+
+<style>
+  .site-footer {
+    display: flex;
+    gap: 16px;
+    margin-top: 64px;
+    padding-top: 24px;
+    padding-bottom: 32px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--subtle);
+  }
+  .site-footer a {
+    color: var(--subtle);
+  }
+</style>

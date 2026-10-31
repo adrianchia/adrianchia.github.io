@@ -9,6 +9,7 @@ const REQUIRED_FILES = [
   'sw.js',
   'robots.txt',
   '404.html',
+  'index.html',
 ];
 
 const NOTION_URL_PATTERNS = ['prod-files-secure', 'secure.notion-static.com', 'X-Amz-Signature', 'amazonaws.com'];
@@ -44,6 +45,11 @@ export async function verifyDist(distDir: string): Promise<string[]> {
   const robots = await readIfExists(join(distDir, 'robots.txt'));
   if (robots !== null && !robots.includes('Sitemap: https://www.adrianchia.com/sitemap.xml')) {
     problems.push('robots.txt is missing the "Sitemap: https://www.adrianchia.com/sitemap.xml" line');
+  }
+
+  const home = await readIfExists(join(distDir, 'index.html'));
+  if (home !== null && !/<meta property="og:image" content="https:\/\/www\.adrianchia\.com\/[^"]*"/.test(home)) {
+    problems.push('index.html is missing an absolute og:image (https://www.adrianchia.com/...)');
   }
 
   for await (const path of walk(distDir)) {

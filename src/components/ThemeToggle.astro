@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+---
+
+<button type="button" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+  <span class="when-light"><Icon name="moon" size={16} /></span>
+  <span class="when-dark"><Icon name="sun" size={16} /></span>
+</button>
+
+<script>
+  // The initial data-theme is set by the inline script in Head.astro, before paint.
+  for (const button of document.querySelectorAll<HTMLButtonElement>('.theme-toggle')) {
+    button.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        // Storage blocked (private mode etc.): the toggle still works for this page view.
+      }
+    });
+  }
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .theme-toggle:hover {
+    border-color: var(--muted);
+  }
+  .when-light,
+  .when-dark {
+    display: inline-flex;
+  }
+  .when-dark,
+  :global([data-theme='dark']) .when-light {
+    display: none;
+  }
+  :global([data-theme='dark']) .when-dark {
+    display: inline-flex;
+  }
+</style>

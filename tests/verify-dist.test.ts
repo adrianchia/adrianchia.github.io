@@ -21,11 +21,12 @@ const GOOD: Record<string, string> = {
   'sw.js': '',
   'robots.txt': 'User-agent: *\nSitemap: https://www.adrianchia.com/sitemap.xml\n',
   '404.html': '<html></html>',
+  'index.html': '<html><head><meta property="og:image" content="https://www.adrianchia.com/og/site.png"></head></html>',
 };
 
 test('reports missing required files', async () => {
   const problems = (await verifyDist(await makeDist())).join('\n');
-  for (const f of ['CNAME', '.nojekyll', '.well-known/brave-rewards-verification.txt', 'sw.js', 'robots.txt', '404.html'])
+  for (const f of ['CNAME', '.nojekyll', '.well-known/brave-rewards-verification.txt', 'sw.js', 'robots.txt', '404.html', 'index.html'])
     expect(problems).toContain(f);
 });
 
@@ -50,4 +51,12 @@ test('flags Notion signed URLs in any html/xml file', async () => {
       '<img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/x.png?X-Amz-Signature=abc">',
   });
   expect(await verifyDist(dir)).toContainEqual(expect.stringMatching(/Notion URL.*about\/index\.html/));
+});
+
+test('requires an absolute og:image on the homepage', async () => {
+  const dir = await makeDist({
+    ...GOOD,
+    'index.html': '<html><head><meta property="og:image" content="/og/site.png"></head></html>',
+  });
+  expect(await verifyDist(dir)).toContainEqual(expect.stringMatching(/index\.html.*og:image/));
 });
