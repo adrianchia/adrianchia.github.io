@@ -1,6 +1,7 @@
 import { readFile, readdir } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { LEGACY_SLUGS } from '../src/lib/legacy.ts';
 
 const REQUIRED_FILES = [
   'CNAME',
@@ -10,6 +11,9 @@ const REQUIRED_FILES = [
   'robots.txt',
   '404.html',
   'index.html',
+  'about/index.html',
+  'flashylight-privacy-policy/index.html',
+  'tea-o-meter-privacy-policy/index.html',
 ];
 
 const NOTION_URL_PATTERNS = ['prod-files-secure', 'secure.notion-static.com', 'X-Amz-Signature', 'amazonaws.com'];
@@ -79,6 +83,19 @@ export async function verifyDist(distDir: string): Promise<string[]> {
     for (const [, src] of html.matchAll(/<img\b[^>]*?\ssrc="(\/[^"]*)"/g)) {
       const file = decodeURIComponent(src.split(/[?#]/)[0]);
       if ((await readIfExists(join(distDir, file))) === null) problems.push(`${rel} references missing image ${src}`);
+    }
+  }
+
+  for (const slug of LEGACY_SLUGS) {
+    const rel = `${slug}/index.html`;
+    const html = await readIfExists(join(distDir, rel));
+    if (html === null) {
+      problems.push(`Missing legacy redirect for ${slug} (${rel})`);
+      continue;
+    }
+    if (!/http-equiv="refresh"/i.test(html)) problems.push(`${rel} is missing a meta refresh redirect`);
+    if (!html.includes(`<link rel="canonical" href="https://www.adrianchia.com/blogs/${slug}/"`)) {
+      problems.push(`${rel} is missing canonical https://www.adrianchia.com/blogs/${slug}/`);
     }
   }
 

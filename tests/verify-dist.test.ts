@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { expect, test } from 'vitest';
 import { verifyDist } from '../scripts/verify-dist.ts';
+import { LEGACY_SLUGS } from '../src/lib/legacy.ts';
 
 async function makeDist(files: Record<string, string> = {}): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), 'dist-'));
@@ -14,7 +15,14 @@ async function makeDist(files: Record<string, string> = {}): Promise<string> {
   return dir;
 }
 
+const redirectStub = (slug: string) =>
+  `<!doctype html><title>Redirecting to: /blogs/${slug}/</title><meta http-equiv="refresh" content="0;url=/blogs/${slug}/"><link rel="canonical" href="https://www.adrianchia.com/blogs/${slug}/">`;
+
 const GOOD: Record<string, string> = {
+  'about/index.html': '<html></html>',
+  'flashylight-privacy-policy/index.html': '<html></html>',
+  'tea-o-meter-privacy-policy/index.html': '<html></html>',
+  ...Object.fromEntries(LEGACY_SLUGS.map((slug) => [`${slug}/index.html`, redirectStub(slug)])),
   CNAME: 'www.adrianchia.com\n',
   '.nojekyll': '',
   '.well-known/brave-rewards-verification.txt': 'x',
@@ -26,7 +34,7 @@ const GOOD: Record<string, string> = {
 
 test('reports missing required files', async () => {
   const problems = (await verifyDist(await makeDist())).join('\n');
-  for (const f of ['CNAME', '.nojekyll', '.well-known/brave-rewards-verification.txt', 'sw.js', 'robots.txt', '404.html', 'index.html'])
+  for (const f of ['CNAME', '.nojekyll', '.well-known/brave-rewards-verification.txt', 'sw.js', 'robots.txt', '404.html', 'index.html', 'about/index.html', 'flashylight-privacy-policy/index.html', 'tea-o-meter-privacy-policy/index.html'])
     expect(problems).toContain(f);
 });
 
@@ -94,4 +102,22 @@ test('accepts post image present in dist and ignores external images', async () 
 
 test('does not treat the blogs index as a post page', async () => {
   expect(await verifyDist(await makeDist({ ...GOOD, 'blogs/index.html': '<html></html>' }))).toEqual([]);
+});
+
+test('flags legacy slug without redirect', async () => {
+  const { ['2014-06-16-welcome-to-my-blog/index.html']: _, ...rest } = GOOD;
+  const problems = await verifyDist(await makeDist(rest));
+  expect(problems).toContainEqual(expect.stringContaining('2014-06-16-welcome-to-my-blog'));
+});
+
+test('flags legacy page that lacks refresh or canonical', async () => {
+  const slug = '2014-06-16-welcome-to-my-blog';
+  const noRefresh = await verifyDist(
+    await makeDist({ ...GOOD, [`${slug}/index.html`]: redirectStub(slug).replace(/<meta http-equiv[^>]*>/, '') }),
+  );
+  expect(noRefresh).toContainEqual(expect.stringMatching(/refresh/));
+  const badCanonical = await verifyDist(
+    await makeDist({ ...GOOD, [`${slug}/index.html`]: redirectStub(slug).replace('www.adrianchia.com', 'example.com') }),
+  );
+  expect(badCanonical).toContainEqual(expect.stringMatching(/canonical/));
 });

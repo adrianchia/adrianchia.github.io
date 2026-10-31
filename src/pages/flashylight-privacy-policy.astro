@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import html from '../legal/flashylight-privacy-policy.html?raw';
+import '../legal/flashylight-privacy-policy.css';
+---
+
+<BaseLayout title="Privacy Policy" ogImage="/og/site.png">
+  <!-- The policy's colours are fixed by its stylesheet, so keep it on a light panel in dark mode. -->
+  <div class="legal"><Fragment set:html={html} /></div>
+</BaseLayout>
+
+<style>
+  .legal {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 24px 0;
+    overflow-wrap: anywhere;
+  }
+</style>
