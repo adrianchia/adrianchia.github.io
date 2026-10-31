@@ -50,6 +50,16 @@ test('callout becomes an emoji blockquote', async () => {
   const md = await pageToMarkdown(fake([base('callout', { rich_text: [rt('Careful')], icon: { type: 'emoji', emoji: '💡' }, color: 'default' })]), 'p');
   expect(md).toContain('> 💡 Careful');
 });
+test('callout keeps inline formatting and renders children inside the blockquote', async () => {
+  const bold = { ...rt('Bold'), annotations: { ...rt('').annotations, bold: true } };
+  const link = { ...rt('site'), href: 'https://example.com' };
+  const callout = base('callout', { rich_text: [bold, rt(' and '), link], icon: { type: 'emoji', emoji: '💡' }, color: 'default' },
+    { id: 'co', has_children: true });
+  const md = await pageToMarkdown(fake([callout], { co: [base('paragraph', { rich_text: [rt('nested para')] }), base('bulleted_list_item', { rich_text: [rt('item')] })] }), 'p');
+  expect(md).toContain('> 💡 **Bold** and [site](https://example.com)');
+  expect(md).toContain('> nested para');
+  expect(md).toContain('> - item');
+});
 test('external video and bookmark become links', async () => {
   const md = await pageToMarkdown(fake([
     base('video', { type: 'external', external: { url: 'https://youtu.be/x' }, caption: [rt('Demo')] }),

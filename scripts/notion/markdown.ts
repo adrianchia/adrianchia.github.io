@@ -53,10 +53,20 @@ export async function pageToMarkdown(client: Client, pageId: string): Promise<st
     return '```' + info + '\n' + plain(rich_text).replace(/\n+$/, '') + '\n```';
   });
   n2m.setCustomTransformer('equation', (block: AnyBlock) => `$$\n${block.equation.expression}\n$$`);
-  n2m.setCustomTransformer('callout', (block: AnyBlock) => {
+  n2m.setCustomTransformer('callout', async (block: AnyBlock) => {
     const icon = block.callout.icon;
     const emoji = icon?.type === 'emoji' ? `${icon.emoji} ` : '';
-    return `> ${emoji}${plain(block.callout.rich_text)}`.replace(/\n/g, '  \n> ');
+    // Render the text like a paragraph so links, bold, code and equations survive.
+    const text = await n2m.blockToMarkdown({
+      object: 'block', id: block.id, type: 'paragraph', paragraph: { rich_text: block.callout.rich_text },
+    } as any);
+    let inner = `${emoji}${text}`;
+    if (block.has_children) {
+      // A custom transformer bypasses notion-to-md's child fetch, so render children here.
+      const kids = n2m.toMarkdownString(await n2m.pageToMarkdown(block.id)).parent?.trim();
+      if (kids) inner += `\n\n${kids}`;
+    }
+    return inner.split('\n').map((l) => (l ? `> ${l}` : '>')).join('\n');
   });
   for (const type of ['video', 'file', 'pdf', 'embed', 'bookmark'] as const) {
     n2m.setCustomTransformer(type, linkBlock(type, pageId));
