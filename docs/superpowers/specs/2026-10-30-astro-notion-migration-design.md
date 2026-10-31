@@ -130,7 +130,7 @@ Claude imports each Markdown post in `src/posts/` into the database:
   otherwise edit wording. Old links to `blog.adrianchia.com` stay as written.
 - After import and verification, delete `src/posts/` from the repo.
 
-Adrian must create a Notion internal integration (or Claude walks him
+Adrian must create a Notion internal integration (or Claude walks them
 through it), share the database with it, and store the token as a GitHub
 secret (e.g. `NOTION_TOKEN`) plus the database ID (`NOTION_DATABASE_ID`,
 secret or variable).
