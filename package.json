@@ -1,71 +1,26 @@
 {
   "name": "adrian-chia",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
+  "type": "module",
   "description": "Adrian Chia",
   "author": "Adrian Chia",
-  "keywords": [
-    "gatsby"
-  ],
-  "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
-    "deploy": "gatsby build && gh-pages -d public -b master"
+  "engines": {
+    "node": ">=26"
   },
-  "dependencies": {
-    "@babel/core": "^7.15.5",
-    "@emotion/core": "^11.0.0",
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
-    "@fortawesome/fontawesome-free": "^5.15.4",
-    "@mdx-js/mdx": "^1.6.22",
-    "@mdx-js/react": "^1.6.22",
-    "@theme-ui/prism": "^0.11.1",
-    "gatsby": "^3.13.0",
-    "gatsby-plugin-advanced-sitemap": "^2.0.0",
-    "gatsby-plugin-disqus": "^1.2.3",
-    "gatsby-plugin-emotion": "^6.13.0",
-    "gatsby-plugin-feed-mdx": "^1.1.0",
-    "gatsby-plugin-google-gtag": "^3.13.0",
-    "gatsby-plugin-image": "^1.13.0",
-    "gatsby-plugin-manifest": "^3.13.0",
-    "gatsby-plugin-mdx": "^2.13.0",
-    "gatsby-plugin-nprogress": "^3.13.0",
-    "gatsby-plugin-offline": "^4.13.0",
-    "gatsby-plugin-page-creator": "^3.13.0",
-    "gatsby-plugin-react-helmet": "^4.13.0",
-    "gatsby-plugin-react-helmet-canonical-urls": "^1.4.0",
-    "gatsby-plugin-remote-images": "^3.0.0",
-    "gatsby-plugin-robots-txt": "^1.6.10",
-    "gatsby-plugin-sharp": "^3.13.0",
-    "gatsby-plugin-theme-ui": "^0.11.1",
-    "gatsby-remark-copy-linked-files": "^4.10.0",
-    "gatsby-remark-images": "^5.10.0",
-    "gatsby-remark-katex": "^5.10.0",
-    "gatsby-remark-responsive-iframe": "^4.10.0",
-    "gatsby-remark-smartypants": "^4.10.0",
-    "gatsby-source-filesystem": "^3.13.0",
-    "gatsby-source-gravatar": "^1.0.1",
-    "gatsby-transformer-sharp": "^3.13.0",
-    "is-absolute-url": "^4.0.1",
-    "katex": "^0.13.18",
-    "lodash": "^4.17.21",
-    "parse-numeric-range": "^1.3.0",
-    "prism-react-renderer": "^1.2.1",
-    "prismjs": "^1.24.1",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0",
-    "theme-ui": "^0.11.1"
+  "packageManager": "pnpm@12.16.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build:site": "astro build",
+    "verify": "node scripts/verify-dist.ts",
+    "test": "vitest run",
+    "check": "astro check"
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3",
-    "prettier": "^2.3.2"
+    "@astrojs/check": "^0.9.12",
+    "@types/node": "^26.6.6",
+    "astro": "^7.4.4",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
   }
 }

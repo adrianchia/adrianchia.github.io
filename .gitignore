@@ -52,11 +52,16 @@ typings/
 *.tgz
 
 # dotenv environment variable files
-.env*
+.env
+.env.*
+!.env.example
 
-# gatsby files
-.cache/
-public
+# Astro
+dist/
+.astro/
+src/content/posts/
+public/images/posts/
+public/og/covers/
 
 # Mac files
 .DS_Store
