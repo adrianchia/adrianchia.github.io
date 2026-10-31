@@ -1,5 +1,6 @@
 ---
 import { formatDate } from '../lib/posts.ts';
+import { tagSlug } from '../lib/tags.ts';
 
 interface Props {
   date: Date;
@@ -8,9 +9,6 @@ interface Props {
 }
 
 const { date, readingMinutes, tags } = Astro.props;
-
-// Placeholder until Task 7 adds tagSlug(): links point at the tag index for now.
-const tagHref = (_tag: string) => '/tags/';
 ---
 
 <div class="post-meta mono">
@@ -20,7 +18,7 @@ const tagHref = (_tag: string) => '/tags/';
     tags.map((tag) => (
       <>
         <span aria-hidden="true"> · </span>
-        <a href={tagHref(tag)}>#{tag}</a>
+        <a href={`/tags/${tagSlug(tag)}/`}>#{tag}</a>
       </>
     ))
   }

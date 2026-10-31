@@ -1,0 +1,33 @@
+---
+import PostListItem from '../../components/PostListItem.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../../lib/posts.ts';
+import { groupByTag } from '../../lib/tags.ts';
+
+export async function getStaticPaths() {
+  const groups = groupByTag(await getPosts());
+  return groups.map((group) => ({ params: { tag: group.slug }, props: { group } }));
+}
+
+const { group } = Astro.props;
+const name = group.names[0];
+---
+
+<BaseLayout title={`#${name}`} ogImage="/og/site.png">
+  <h1>#{name}</h1>
+  {group.posts.map((post) => <PostListItem post={post} />)}
+  <p class="all-tags"><a href="/tags/">All tags →</a></p>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin: 32px 0 16px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .all-tags {
+    margin: 24px 0 0;
+    font-weight: 500;
+  }
+</style>

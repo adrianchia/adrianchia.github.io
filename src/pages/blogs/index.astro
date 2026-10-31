@@ -1,0 +1,43 @@
+---
+import PostListItem from '../../components/PostListItem.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../../lib/posts.ts';
+
+const posts = await getPosts();
+const years: Array<{ year: number; posts: typeof posts }> = [];
+for (const post of posts) {
+  const year = post.data.date.getUTCFullYear();
+  const last = years.at(-1);
+  if (last?.year === year) last.posts.push(post);
+  else years.push({ year, posts: [post] });
+}
+---
+
+<BaseLayout title="Posts" ogImage="/og/site.png">
+  <h1>Posts</h1>
+  {
+    years.map(({ year, posts }) => (
+      <section>
+        <h2 class="year mono">{year}</h2>
+        {posts.map((post) => (
+          <PostListItem post={post} />
+        ))}
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  h1 {
+    margin: 32px 0 8px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .year {
+    margin: 32px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--subtle);
+  }
+</style>

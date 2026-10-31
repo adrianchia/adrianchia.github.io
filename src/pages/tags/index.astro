@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../../lib/posts.ts';
+import { groupByTag } from '../../lib/tags.ts';
+
+const groups = groupByTag(await getPosts());
+---
+
+<BaseLayout title="Tags" ogImage="/og/site.png">
+  <h1>Tags</h1>
+  <ul class="tag-list mono">
+    {
+      groups.map((g) => (
+        <li>
+          <a href={`/tags/${g.slug}/`}>#{g.names[0]}</a> <span class="count">({g.posts.length})</span>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin: 32px 0 24px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .count {
+    color: var(--subtle);
+    font-size: 13px;
+  }
+</style>
