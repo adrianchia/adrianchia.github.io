@@ -8,7 +8,7 @@ Site: https://www.adrianchia.com
 
 Adrian's personal blog is a Gatsby 3 site (2021-era dependencies, needs
 `--openssl-legacy-provider` to build) with ~10 Markdown posts in the repo.
-He wants to:
+Adrian wants to:
 
 1. Rebuild it on Astro, on current tooling (Node.js 26 LTS, pnpm).
 2. Write and manage posts in a Notion database instead of Markdown files,
