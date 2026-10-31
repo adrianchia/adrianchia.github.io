@@ -46,6 +46,13 @@ test('equations become KaTeX delimiters', async () => {
   expect(md).toContain('$$\nE = mc^2\n$$');
   expect(md).toContain('$a^2$');
 });
+test('heading_4 becomes an h4', async () =>
+  expect(await pageToMarkdown(fake([base('heading_4', { rich_text: [rt('Value Proposition')] })]), 'p')).toBe('#### Value Proposition\n'));
+test('angle brackets in text are escaped, but not in inline code', async () => {
+  const code = { ...rt('<T>'), annotations: { ...rt('').annotations, code: true } };
+  const md = await pageToMarkdown(fake([base('paragraph', { rich_text: [rt('http://<host>:<port>/ '), code] })]), 'p');
+  expect(md).toBe('http://&lt;host&gt;:&lt;port&gt;/ `<T>`\n');
+});
 test('callout becomes an emoji blockquote', async () => {
   const md = await pageToMarkdown(fake([base('callout', { rich_text: [rt('Careful')], icon: { type: 'emoji', emoji: '💡' }, color: 'default' })]), 'p');
   expect(md).toContain('> 💡 Careful');

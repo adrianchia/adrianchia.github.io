@@ -35,7 +35,7 @@ const el = (type: string, style: Record<string, unknown>, children?: unknown) =>
   props: { style, children },
 });
 
-export async function renderOgImage({ title, subtitle, tags = [] }: OgInput): Promise<Uint8Array> {
+export async function renderOgImage({ title, subtitle, tags = [] }: OgInput): Promise<Uint8Array<ArrayBuffer>> {
   const titleSize = title.length > 90 ? 48 : title.length > 50 ? 60 : 72;
   const mono = { fontFamily: 'JetBrains Mono', fontSize: 28, color: COLORS.muted };
   const meta = [
@@ -91,5 +91,5 @@ export async function renderOgImage({ title, subtitle, tags = [] }: OgInput): Pr
     height: HEIGHT,
     fonts: await loadFonts(),
   });
-  return new Resvg(svg).render().asPng();
+  return new Uint8Array(new Resvg(svg).render().asPng());
 }

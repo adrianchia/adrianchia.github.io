@@ -45,6 +45,16 @@ const UNSUPPORTED = [
 export async function pageToMarkdown(client: Client, pageId: string): Promise<string> {
   const n2m = new NotionToMarkdown({ notionClient: client, config: { parseChildPages: false } });
 
+  // notion-to-md emits text verbatim, so a literal "<port>" would parse as an HTML tag. Escape outside inline code.
+  const annotate = n2m.annotatePlainText.bind(n2m);
+  n2m.annotatePlainText = (text: string, annotations: any) =>
+    annotate(annotations.code ? text : text.replace(/</g, '&lt;').replace(/>/g, '&gt;'), annotations);
+  // notion-to-md 3.1.9 has no heading_4 case and would emit it as a paragraph.
+  n2m.setCustomTransformer('heading_4', async (block: AnyBlock) =>
+    '#### ' + (await n2m.blockToMarkdown({
+      object: 'block', id: block.id, type: 'paragraph', paragraph: { rich_text: block.heading_4.rich_text },
+    } as any)));
+
   n2m.setCustomTransformer('code', (block: AnyBlock) => {
     const { rich_text, caption, language } = block.code;
     const lang = !language || language === 'plain text' ? 'text' : String(language).toLowerCase();
