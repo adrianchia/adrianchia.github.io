@@ -22,5 +22,8 @@
     "astro": "^7.4.4",
     "typescript": "^6.0.3",
     "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.30.0"
   }
 }

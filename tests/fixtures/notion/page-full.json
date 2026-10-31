@@ -1,0 +1,14 @@
+{
+  "object": "page",
+  "id": "p1",
+  "cover": null,
+  "properties": {
+    "Title": { "id": "title", "type": "title", "title": [{ "type": "text", "text": { "content": "Getting Started on NodeJS", "link": null }, "plain_text": "Getting Started on NodeJS", "href": null, "annotations": {} }] },
+    "Slug": { "id": "s", "type": "rich_text", "rich_text": [{ "type": "text", "text": { "content": "2014-07-23-getting-started-on-nodejs", "link": null }, "plain_text": "2014-07-23-getting-started-on-nodejs", "href": null, "annotations": {} }] },
+    "Status": { "id": "st", "type": "select", "select": { "id": "x", "name": "Published", "color": "default" } },
+    "Published Date": { "id": "d", "type": "date", "date": { "start": "2014-07-23", "end": null, "time_zone": null } },
+    "Tags": { "id": "t", "type": "multi_select", "multi_select": [{ "id": "1", "name": "nodejs", "color": "default" }, { "id": "2", "name": "express", "color": "default" }] },
+    "Description": { "id": "de", "type": "rich_text", "rich_text": [] },
+    "Cover Credit": { "id": "cc", "type": "rich_text", "rich_text": [] }
+  }
+}

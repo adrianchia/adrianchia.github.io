@@ -1,0 +1,18 @@
+{
+  "object": "page",
+  "id": "p1",
+  "cover": { "type": "external", "external": { "url": "https://example.com/c.jpg" } },
+  "properties": {
+    "Title": { "id": "title", "type": "title", "title": [{ "type": "text", "text": { "content": "Photo post", "link": null }, "plain_text": "Photo post", "href": null, "annotations": {} }] },
+    "Slug": { "id": "s", "type": "rich_text", "rich_text": [{ "type": "text", "text": { "content": "photo-post", "link": null }, "plain_text": "photo-post", "href": null, "annotations": {} }] },
+    "Status": { "id": "st", "type": "select", "select": { "id": "x", "name": "Published", "color": "default" } },
+    "Published Date": { "id": "d", "type": "date", "date": { "start": "2020-01-02", "end": null, "time_zone": null } },
+    "Tags": { "id": "t", "type": "multi_select", "multi_select": [] },
+    "Description": { "id": "de", "type": "rich_text", "rich_text": [{ "type": "text", "text": { "content": "A description", "link": null }, "plain_text": "A description", "href": null, "annotations": {} }] },
+    "Cover Credit": { "id": "cc", "type": "rich_text", "rich_text": [
+      { "type": "text", "text": { "content": "Photo by ", "link": null }, "plain_text": "Photo by ", "href": null, "annotations": {} },
+      { "type": "text", "text": { "content": "Jane Doe", "link": { "url": "https://example.com/p" } }, "plain_text": "Jane Doe", "href": "https://example.com/p", "annotations": {} },
+      { "type": "text", "text": { "content": ", CC BY 2.0", "link": null }, "plain_text": ", CC BY 2.0", "href": null, "annotations": {} }
+    ] }
+  }
+}
