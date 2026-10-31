@@ -96,6 +96,10 @@ Properties (Claude's call on exact names unless Adrian changes them):
 | Published Date | date         | Sort order and displayed date |
 | Tags           | multi-select | Tag pages and tag labels |
 | Description    | rich text    | Listing blurb, meta description, RSS description. Optional; fall back to an excerpt of the body. |
+| Cover Credit   | rich text    | Optional attribution for the page cover (e.g. "Photo by Jane Doe, CC BY 2.0", with link). Shown under the post title. |
+
+The Notion page **cover** is used as the post's share image (see
+"Integrations").
 
 Build behaviour:
 - Query only `Status = Published`. Fail the build (clear error) if a
@@ -197,8 +201,24 @@ Approved from mockups (`.superpowers/brainstorm/*/content/design-b-pro.html`).
 - **RSS** at `/rss.xml`: published posts only, with title, date, link,
   description.
 - **Sitemap** and **robots.txt**, regenerated each build.
-- Meta tags: title, description, canonical URL on `https://www.adrianchia.com`,
-  Open Graph basics.
+- Meta tags: title, description, canonical URL on `https://www.adrianchia.com`.
+- **Social sharing (Open Graph + Twitter/X cards)** on every page:
+  `og:title`, `og:description`, `og:url`, `og:site_name`, `og:image`
+  (absolute URL, 1200×630), `og:type` (`article` on posts, with
+  `article:published_time` and `article:tag`; `website` elsewhere);
+  `twitter:card=summary_large_image`, `twitter:creator=@adrianchia`,
+  `twitter:title`, `twitter:description`, `twitter:image`.
+- **Share image per post**, in this order:
+  1. The Notion page's **cover image**, if set. Downloaded at build time like
+     other images, sized for 1200×630. If the post's **Cover Credit**
+     property is filled (for Creative Commons / Unsplash photos), show it as
+     a small attribution line under the post title, with its link.
+  2. Otherwise a **generated image** made at build time: post title, date,
+     tags and "adrianchia.com" in the site's design (tool is the builder's
+     call, e.g. Satori + resvg).
+  Non-post pages use one generated site image (name + tagline).
+  Images are never picked automatically from the web; Adrian chooses any
+  Creative Commons cover themselves and fills in the credit.
 - **Service worker cleanup (Claude's call):** the live site has a Gatsby
   offline service worker (`sw.js`) installed for returning visitors. Ship a
   self-unregistering `sw.js` at the same path so those visitors stop getting
